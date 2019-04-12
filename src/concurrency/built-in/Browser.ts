@@ -32,21 +32,19 @@ export default class Browser extends ConcurrencyImplementation {
                     },
 
                     close: async () => {
-                        await timeoutExecute(BROWSER_TIMEOUT, chrome.close());
+                        try {await chrome.close();} catch (e) {}
+                        // await timeoutExecute(BROWSER_TIMEOUT, chrome.close());
                     },
                 };
             },
 
             close: async () => {
-                await chrome.close();
+                try {await chrome.close();} catch (e) {}
             },
 
             repair: async () => {
                 debug('Starting repair');
-                try {
-                    // will probably fail, but just in case the repair was not necessary
-                    await chrome.close();
-                } catch (e) {}
+                try {await chrome.close();} catch (e) {}
 
                 // just relaunch as there is only one page per browser
                 chrome = await this.puppeteer.launch(this.options);
