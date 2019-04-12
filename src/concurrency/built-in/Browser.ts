@@ -14,7 +14,6 @@ export default class Browser extends ConcurrencyImplementation {
     public async workerInstance(): Promise<WorkerInstance> {
         let chrome: puppeteer.Browser;
         let page: puppeteer.Page;
-        let context: any; // puppeteer typings are old...
 
         return {
             jobInstance: async (proxy) => {
@@ -24,8 +23,7 @@ export default class Browser extends ConcurrencyImplementation {
                 ]
                 chrome = await this.puppeteer.launch(this.options);
                 await timeoutExecute(BROWSER_TIMEOUT, (async () => {
-                    context = await chrome.createIncognitoBrowserContext();
-                    page = await context.newPage();
+                    page = await chrome.newPage();
                 })());
 
                 return {
@@ -34,7 +32,7 @@ export default class Browser extends ConcurrencyImplementation {
                     },
 
                     close: async () => {
-                        await timeoutExecute(BROWSER_TIMEOUT, context.close());
+                        await timeoutExecute(BROWSER_TIMEOUT, chrome.close());
                     },
                 };
             },
