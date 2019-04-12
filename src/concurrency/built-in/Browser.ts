@@ -18,7 +18,6 @@ export default class Browser extends ConcurrencyImplementation {
 
         return {
             jobInstance: async (proxy) => {
-                console.log(proxy);
                 this.options = {
                     ignoreHTTPSErrors: true,
                     headless: true,
