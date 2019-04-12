@@ -18,14 +18,10 @@ export default class Browser extends ConcurrencyImplementation {
 
         return {
             jobInstance: async (proxy) => {
-                this.options = {
-                    ignoreHTTPSErrors: true,
-                    headless: true,
-                    args: [
-                      '--no-sandbox',
-                      `--proxy-server=${proxy}`,
-                    ]
-                }
+                this.options.args = [
+                    '--no-sandbox',
+                    `--proxy-server=${proxy}`,
+                ]
                 chrome = await this.puppeteer.launch(this.options);
                 await timeoutExecute(BROWSER_TIMEOUT, (async () => {
                     context = await chrome.createIncognitoBrowserContext();
