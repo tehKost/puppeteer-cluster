@@ -23,7 +23,9 @@ export default class Browser extends ConcurrencyImplementation {
                 ]
                 chrome = await this.puppeteer.launch(this.options);
                 await timeoutExecute(BROWSER_TIMEOUT, (async () => {
-                    page = await chrome.newPage();
+                    // page = await chrome.newPage();
+                    let pages = await chrome.pages()
+                    page = pages[0]
                 })());
 
                 return {
